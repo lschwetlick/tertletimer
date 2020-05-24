@@ -43,6 +43,11 @@ start a timer that counts down to the specified time.
 
 You should only pass either hours/minutes/seconds OR an absolute date.
 
+I added the line to my `~/.bash_profile` to make the script globally accessible:
+```
+alias tertle="~/tertletimer/tertletimer.sh"
+```
+
 
 ## Requirements
 - figlet (and fonts, if you want to use the fancy print options. Otherwise pass `-p 1`)
