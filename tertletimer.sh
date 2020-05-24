@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-# Usage:
-# sw
-#  - start a stopwatch from 0, save start time
-# sw [-r|--resume]
-#  - start a stopwatch from the last saved start time (or current time if no last saved start time exists)
-#  - "-r" stands for --resume
+#Usage:
+#tertletimer
+#start a timer that counts down to the specified time.
+#
+#Options:
+#-h hours
+#-m minutes
+#-s seconds
+
 DURATION_HR=0
 DURATION_MIN=0
 DURATION_SEC=0
