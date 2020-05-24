@@ -49,8 +49,9 @@ esac
 #nlines=8  #11 #8 #8 #6 #6
 if ! $oneline
 then
-    cat ascii_tertle.txt
-    printf "\n\n\n"
+	BASEDIR=$(dirname "$0")
+	cat "$BASEDIR/ascii_tertle.txt"
+   	printf "\n\n\n"
 fi
 
 # Clean up
