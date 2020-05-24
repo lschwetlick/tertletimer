@@ -144,7 +144,7 @@ while [ -1 ]; do
             if hash say 2>/dev/null; then
 			    say beep
             else
-                tput bel
+                printf "\a\a\a\a\a\a"
             fi
 			#brightness 0.2
 			sleep 1
