@@ -44,6 +44,10 @@ start a timer that counts down to the specified time.
 You should only pass either hours/minutes/seconds OR an absolute date.
 
 
+## Requirements
+- figlet (and fonts, if you want to use the fancy print options. Otherwise pass `-p 1`)
+- gdate (if you want to use the absolute date option)
+
 ## Example
 ```
 bash tertletimer -m 5 -s 30
