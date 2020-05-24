@@ -12,10 +12,12 @@
 DURATION_HR=0
 DURATION_MIN=0
 DURATION_SEC=0
+PRINT=1
+ABSOLUTE=false
 
 # Get hours minutes and seconds as input
 OPTIND=1
-while getopts "h:m:s:" opt; do
+while getopts "h:m:s:p:a" opt; do
     case "$opt" in
     h)
 	DURATION_HR=$OPTARG
@@ -24,18 +26,27 @@ while getopts "h:m:s:" opt; do
         ;;
     s)  DURATION_SEC=$OPTARG
         ;;
+    p)  PRINT=$OPTARG
+	    ;;
+    a)  ABSOLUTE=$OPTARG
+	    ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
-      ;;
+        ;;
     esac
 done
 
 # Font Setup
-oneline=true
-font="doom" #"colossal"  #"big" #"barbwire" #"stampatello" #"standard"
-nlines=8  #11 #8 #8 #6 #6
-
-
+case $PRINT in
+   1) oneline=true;;
+   2) oneline=false; font="doom"; nlines=8;;
+   3) oneline=false; font="colossal"; nlines=11;;
+   4) oneline=false; font="standard"; nlines=6;;
+   5) oneline=false; font="big"; nlines=8;;
+   *) echo "Sorry, Not valid print option";;
+esac
+#font="doom" #"colossal"  #"big" #"barbwire" #"stampatello" #"standard"
+#nlines=8  #11 #8 #8 #6 #6
 
 # Clean up
 function finish {
@@ -49,7 +60,7 @@ trap finish EXIT
 # Get total duration of timer in seconds
 DURATION=$(( $DURATION_HR *3600 + $DURATION_MIN *60 + $DURATION_SEC))
 echo $DURATION
-# hide cursor for the duration of the timer 
+# hide cursor for the duration of the timer
 tput civis
 
 # get strating time
@@ -57,12 +68,11 @@ START=$(date +%s)
 
 
 # Prepare the lines where figlet will print the time.
-if ! $oneline 
+if ! $oneline
 then
 	#The following does not work:
 	#for i in {1..$nlines}
 	# so we need this syntax:
-	echo "asd"
 	for ((c=1; c<=$nlines; c++))
 	do
 		printf "\n"
@@ -71,21 +81,21 @@ fi
 
 # loop over time
 while [ -1 ]; do
-	# convert seconds	
+	# convert seconds
 	NOW=$(date +%s)				# get time now in seconds
 	DIF=$(( $NOW-$START ))			# compute diff in seconds
 	ELAPSE=$(( $DURATION-$DIF ))		# compute elapsed time in seconds
 	HR=$(( $ELAPSE/3600 ))
 	MINS=$(( $ELAPSE/60 -($HR*60) ))			# convert to minutes... (dumps remainder from division)
 	SECS=$(( $ELAPSE - ($MINS*60) - ($HR*3600) )) 	# ... and seconds
- 	
+
 	#TIME_REMAINING="%0.2d:%0.2d:%0.2d" $HR $MINS $SECS
-	
+
 	# Clear the 6-line-display
 	if ! $oneline
-	then	
+	then
 		for ((c=1; c<=$nlines; c++))
-		do	
+		do
     			tput cuu1 # move cursor up by one line
     			tput el # clear the line
 		done
@@ -97,15 +107,15 @@ while [ -1 ]; do
 		if $oneline
 		then
 			printf "\r\e%0.2d:%0.2d:%0.2d" $HR $MINS $SECS
-		else	
+		else
 			printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font
 		fi
 		#printf "\r\e $MINS:0$SECS \n"
-		
+
 		# ALARM!
 		for i in `seq 1 2`;    		# for i = 1:180 (i.e. 180 seconds)
 		do
-			# printing \7 is supposed to make the terminal flash and beep. 
+			# printing \7 is supposed to make the terminal flash and beep.
 			#I have a feeling this depends heavily on the setup
 			tput bel && sleep 0.33s && tput bel && sleep 0.33s && tput bel && sleep 0.33s
 			# if not on macos, replace with sound-making command of choice
@@ -113,7 +123,7 @@ while [ -1 ]; do
 			#brightness 0.2
 			sleep 1
 			#brightness 1
-		done  	
+		done
 		# FINISH SCRIPT
 		break
 
@@ -123,10 +133,10 @@ while [ -1 ]; do
 		if $oneline
 		then
 			printf "\r\e%0.2d:%0.2d:%0.2d" $HR $MINS $SECS
-		else	
+		else
 			printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font
 		fi
-		
+
 #		printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font 
 
 		sleep 1  				# sleep 1 second
