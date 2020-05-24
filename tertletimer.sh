@@ -47,8 +47,11 @@ case $PRINT in
 esac
 #font="doom" #"colossal"  #"big" #"barbwire" #"stampatello" #"standard"
 #nlines=8  #11 #8 #8 #6 #6
-cat ascii_tertle.txt
-printf "\n\n\n"
+if ! $oneline
+then
+    cat ascii_tertle.txt
+    printf "\n\n\n"
+fi
 
 # Clean up
 function finish {

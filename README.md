@@ -21,6 +21,14 @@ $ bash tertletimer.sh -a "23:30:00"
 This is a small ***Ter**minal **Timer*** utility script that counts down hours, minutes and seconds.
 It prints the remaining time using figlet every second and alerts when 0 has been reached.
 
+For a very neutral timer, pass `-p 1`.
+
+```
+$ bash tertletimer.sh -a "23:30:00" -p 1
+04:35:48
+```
+
+
 ## Usage:
 tertletimer
 
