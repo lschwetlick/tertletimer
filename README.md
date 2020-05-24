@@ -12,11 +12,12 @@ $ bash tertletimer -m 1
 ```
 
 
-This is a small utility script that counts down hours, minutes and seconds.
+This is a small ***Ter**minal Timer* utility script that counts down hours, minutes and seconds.
 It prints the remaining time using figlet every second and alerts when 0 has been reached.
 
 ## Usage:
 tertletimer
+
 start a timer that counts down to the specified time.
 
 ### Options:
