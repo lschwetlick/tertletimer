@@ -31,6 +31,7 @@ while getopts "h:m:s:" opt; do
 done
 
 # Font Setup
+oneline=true
 font="doom" #"colossal"  #"big" #"barbwire" #"stampatello" #"standard"
 nlines=8  #11 #8 #8 #6 #6
 
@@ -44,23 +45,29 @@ function finish {
 }
 trap finish EXIT
 
-# Get total duration of timer in seconds
-DURATION=$(( $DURATION_HR *360 + $DURATION_MIN *60 + $DURATION_SEC))
 
+# Get total duration of timer in seconds
+DURATION=$(( $DURATION_HR *3600 + $DURATION_MIN *60 + $DURATION_SEC))
+echo $DURATION
 # hide cursor for the duration of the timer 
 tput civis
 
 # get strating time
 START=$(date +%s)
 
-# Prepare the lines where figlet will print the time. Figlet needs 6 lines to print!
-#The following does not work:
-#for i in {1..$nlines}
-# so we need this syntax:
-for ((c=1; c<=$nlines; c++))
-do
-	printf "\n"
-done
+
+# Prepare the lines where figlet will print the time.
+if ! $oneline 
+then
+	#The following does not work:
+	#for i in {1..$nlines}
+	# so we need this syntax:
+	echo "asd"
+	for ((c=1; c<=$nlines; c++))
+	do
+		printf "\n"
+	done
+fi
 
 # loop over time
 while [ -1 ]; do
@@ -75,18 +82,24 @@ while [ -1 ]; do
 	#TIME_REMAINING="%0.2d:%0.2d:%0.2d" $HR $MINS $SECS
 	
 	# Clear the 6-line-display
-#	for i in {1..$nlines}	
-	for ((c=1; c<=$nlines; c++))
-	do	
-    		tput cuu1 # move cursor up by one line
-    		tput el # clear the line
-	done
-
+	if ! $oneline
+	then	
+		for ((c=1; c<=$nlines; c++))
+		do	
+    			tput cuu1 # move cursor up by one line
+    			tput el # clear the line
+		done
+	fi
 
 	# Check if the count down is over
-	if [ $MINS == 0 ] && [ $SECS == 0 ]	# if mins = 0 and secs = 0 (i.e. if time expired)
+	if [ $HR == 0 ] && [ $MINS == 0 ] && [ $SECS == 0 ]	# if mins = 0 and secs = 0 (i.e. if time expired)
 	then 					# blink screen
-		printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font
+		if $oneline
+		then
+			printf "\r\e%0.2d:%0.2d:%0.2d" $HR $MINS $SECS
+		else	
+			printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font
+		fi
 		#printf "\r\e $MINS:0$SECS \n"
 		
 		# ALARM!
@@ -107,8 +120,14 @@ while [ -1 ]; do
 	# else, timer is not done
 	else
 		#printf "\r\e %0.2d:%0.2d:%0.2d" $HR $MINS $SECS
+		if $oneline
+		then
+			printf "\r\e%0.2d:%0.2d:%0.2d" $HR $MINS $SECS
+		else	
+			printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font
+		fi
 		
-		printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font 
+#		printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font 
 
 		sleep 1  				# sleep 1 second
 	fi					# end if
