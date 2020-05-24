@@ -47,6 +47,8 @@ case $PRINT in
 esac
 #font="doom" #"colossal"  #"big" #"barbwire" #"stampatello" #"standard"
 #nlines=8  #11 #8 #8 #6 #6
+cat ascii_tertle.txt
+printf "\n\n\n"
 
 # Clean up
 function finish {
@@ -76,7 +78,7 @@ then
 else
     DURATION=$(( $DURATION_HR *3600 + $DURATION_MIN *60 + $DURATION_SEC))
 fi
-echo $DURATION
+
 # hide cursor for the duration of the timer
 tput civis
 
