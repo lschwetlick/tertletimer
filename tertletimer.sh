@@ -14,7 +14,7 @@
 DURATION_HR=0
 DURATION_MIN=0
 DURATION_SEC=0
-PRINT=2
+PRINT=4
 ABSOLUTE=""
 
 # Get hours minutes and seconds as input
@@ -141,7 +141,11 @@ while [ -1 ]; do
 			#I have a feeling this depends heavily on the setup
 			tput bel && sleep 0.33s && tput bel && sleep 0.33s && tput bel && sleep 0.33s
 			# if not on macos, replace with sound-making command of choice
-			say beep
+            if hash say 2>/dev/null; then
+			    say beep
+            else
+                tput bel
+            fi
 			#brightness 0.2
 			sleep 1
 			#brightness 1
@@ -159,7 +163,7 @@ while [ -1 ]; do
 			printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font
 		fi
 
-#		printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font 
+#		printf "%0.2d:%0.2d:%0.2d" $HR $MINS $SECS | figlet -f $font
 
 		sleep 1  				# sleep 1 second
 	fi					# end if
