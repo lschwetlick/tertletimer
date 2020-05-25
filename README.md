@@ -28,11 +28,12 @@ $ bash tertletimer.sh -a "23:30:00" -p 1
 04:35:48
 ```
 
+Caveat: depending on your terminal setup it may or may not be able to trigger sound! You may need to add a line to do this...
 
 ## Usage:
 tertletimer
 
-start a timer that counts down to the specified time.
+start a timer that counts down from the specified time.
 
 ### Options:
 - **-h** hours
