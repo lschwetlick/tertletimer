@@ -35,11 +35,11 @@ tertletimer
 start a timer that counts down to the specified time.
 
 ### Options:
--h hours
--m minutes
--s seconds
--p print style (font)
--a absolute time at which to alert. Format: "2020-05-25 11:30:00". needs gnudate.
+- h hours
+- m minutes
+- s seconds
+- p print style (font)
+- a absolute time at which to alert. Format: "2020-05-25 11:30:00". needs gnudate.
 
 You should only pass either hours/minutes/seconds OR an absolute date.
 
